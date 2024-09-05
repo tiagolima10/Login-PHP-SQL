@@ -38,11 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/response.css">
     <script>
-        // Função para redirecionar após um intervalo
+        // Redirecionar ao login
         function redirectToLogin() {
             setTimeout(function() {
                 window.location.href = 'login.php';
-            }, 2000); // 2 segundos
+            }, 1000);
         }
 
         function showMessage() {

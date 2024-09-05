@@ -36,12 +36,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/response.css">
     <script>
+        // Redirecionamento do login
         function redirectToSuccess() {
             setTimeout(function() {
                 window.location.href = 'sucesso.html';
-            }, 2000); // 2 segundos
+            }, 1000);
         }
 
+        // Mensagens de sucesso ou erro do login
         function showMessage() {
             const success = document.querySelector('.success-message');
             if (success) {
@@ -55,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             const error = document.querySelector('.error-message');
             if (error) {
                 error.style.opacity = '1';
-                setTimeout(() => error.style.opacity = '0', 3000);
+                setTimeout(() => error.style.opacity = '0', 2000);
             }
         }
 
