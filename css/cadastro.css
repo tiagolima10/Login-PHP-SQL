@@ -1,0 +1,62 @@
+body {
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Ajusta a altura mínima para ocupar a tela */
+    font-family: 'Orbitron', sans-serif;
+    color: #fff;
+    padding: 20px; /* Para garantir um pequeno espaçamento */
+}
+
+.container {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px; /* Reduzi o padding para diminuir o espaço interno */
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), 0 0 40px rgba(255, 0, 255, 0.7);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    max-height: 90vh; /* Limita a altura do container a 90% da tela */
+}
+
+h1 {
+    font-size: 2rem; /* Reduz o tamanho da fonte para economizar espaço */
+    margin-bottom: 15px;
+    color: #ff00ff;
+    text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin: 10px 0 5px; /* Reduzi as margens entre os rótulos */
+    font-size: 1rem;
+    color: #00ffff;
+}
+
+input[type="text"], input[type="email"], input[type="password"] {
+    background-color: #1c1c1c;
+    border: 2px solid #00ffff;
+    padding: 8px; /* Reduzi o padding dos campos */
+    border-radius: 5px;
+    font-size: 0.9rem; /* Reduzi o tamanho da fonte nos campos */
+    color: #fff;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input[type="submit"] {
+    margin-top: 15px; /* Reduzi o espaçamento superior do botão */
+    padding: 10px;
+    background-color: #00ffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem; /* Reduzi levemente o tamanho do texto do botão */
+    color: #000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
