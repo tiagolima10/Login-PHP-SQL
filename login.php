@@ -3,41 +3,46 @@ require 'database/db.php'; // Inclui a conexão com o banco de dados
 
 session_start();
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-        // Verifica se o usuário existe no banco de dados
-        $stmt = $pdo->prepare('SELECT * FROM usuarios WHERE username = :username OR email = :email');
-        $stmt->execute(['username' => $username, 'email' => $username]);
-        $user = $stmt->fetch();
+    // Verifica se o usuário existe no banco de dados
+    $stmt = $pdo->prepare('SELECT * FROM usuarios WHERE username = :username OR email = :email');
+    $stmt->execute(['username' => $username, 'email' => $username]);
+    $user = $stmt->fetch();
 
-        // Verifica se o usuário foi encontrado e se a senha está correta
-        if ($user && password_verify($password, $user['password'])) {
-            // Login bem-sucedido
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['role'] = $user['role'];
-        
-            // Redireciona para a página interna
-            $success = 'Login realizado com sucesso! Redirecionando...';
-        } elseif (md5($password) === $user['password']) {
-            // Atualiza a senha para o formato novo com password_hash
-            $new_password_hashed = password_hash($password, PASSWORD_DEFAULT);
-            $stmt = $pdo->prepare('UPDATE usuarios SET password = :password WHERE id = :id');
-            $stmt->execute(['password' => $new_password_hashed, 'id' => $user['id']]);
-    
-            // Login bem-sucedido após a atualização da senha
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['role'] = $user['role'];
-    
-            $success = 'Login realizado com sucesso! Senha atualizada.'; 
-        } else {
-            $error = 'Usuário ou senha inválidos.';
-        }
+    // Verifica se o usuário foi encontrado e se a senha está correta
+    if ($user && password_verify($password, $user['password'])) {
+        // Login bem-sucedido
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['role'] = $user['role'];
+
+        // Redireciona para a página interna
+        header('Location: sucesso.php');
+        exit();
+    } elseif ($user && md5($password) === $user['password']) {
+        // Atualiza a senha para o formato novo com password_hash
+        $new_password_hashed = password_hash($password, PASSWORD_DEFAULT);
+        $stmt = $pdo->prepare('UPDATE usuarios SET password = :password WHERE id = :id');
+        $stmt->execute(['password' => $new_password_hashed, 'id' => $user['id']]);
+
+        // Login bem-sucedido após a atualização da senha
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['role'] = $user['role'];
+
+        // Redireciona para a página interna
+        $success = 'Redirecionando...';
+        header('Location: sucesso.php');
+        exit();
+    } else {
+        $error = 'Usuário ou senha inválidos.';
     }
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -51,7 +56,7 @@ session_start();
         // Redirecionamento do login
         function redirectToSuccess() {
             setTimeout(function() {
-                window.location.href = 'sucesso.html';
+                window.location.href = 'sucesso.php';
             }, 1000);
         }
 
