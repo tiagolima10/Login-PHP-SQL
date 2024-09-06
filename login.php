@@ -3,28 +3,28 @@ require 'database/db.php'; // Inclui a conexão com o banco de dados
 
 session_start();
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
 
-    // Verifica se o usuário existe no banco de dados
-    $stmt = $pdo->prepare('SELECT * FROM usuarios WHERE username = :username OR email = :email');
-    $stmt->execute(['username' => $username, 'email' => $username]);
-    $user = $stmt->fetch();
+        // Verifica se o usuário existe no banco de dados
+        $stmt = $pdo->prepare('SELECT * FROM usuarios WHERE username = :username OR email = :email');
+        $stmt->execute(['username' => $username, 'email' => $username]);
+        $user = $stmt->fetch();
 
-    // Verifica se o usuário foi encontrado e se a senha está correta
-    if ($user && md5($password) === $user['password']) {
-        // Login bem-sucedido
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['username'] = $user['username'];
-        $_SESSION['role'] = $user['role'];
-
-        // Redireciona para a página interna
-        $success = 'Login realizado com sucesso! Redirecionando...';
-    } else {
-        $error = 'Usuário ou senha inválidos.';
+        // Verifica se o usuário foi encontrado e se a senha está correta
+        if ($user && password_verify($password, $user['password'])) {
+            // Login bem-sucedido
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['role'] = $user['role'];
+        
+            // Redireciona para a página interna
+            $success = 'Login realizado com sucesso! Redirecionando...';
+        } else {
+            $error = 'Usuário ou senha inválidos.';
+        }
     }
-}
 ?>
 
 <!DOCTYPE html>

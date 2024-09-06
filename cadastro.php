@@ -11,20 +11,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Verifica se o usuário ou email já existem
         $stmt = $pdo->prepare('SELECT * FROM usuarios WHERE username = :username OR email = :email');
         $stmt->execute(['username' => $username, 'email' => $email]);
-
+    
         if ($stmt->fetch()) {
             $error = 'Usuário ou email já estão em uso.';
         } else {
-            // Insere o novo usuário com a senha criptografada
+            // Insere o novo usuário com a senha criptografada usando password_hash
             $stmt = $pdo->prepare('INSERT INTO usuarios (username, email, password) VALUES (:username, :email, :password)');
-            $password_hashed = md5($password);
+            $password_hashed = password_hash($password, PASSWORD_DEFAULT);
             $stmt->execute(['username' => $username, 'email' => $email, 'password' => $password_hashed]);
-
+    
             // Define a mensagem de sucesso
             $success = 'Cadastro realizado com sucesso! Redirecionando...';
         }
-    } else {
-        $error = 'As senhas não coincidem.';
     }
 }
 ?>
