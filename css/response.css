@@ -12,6 +12,11 @@
     transition: opacity 0.5s ease-in-out;
 }
 
+.error-message:empty,
+.success-message:empty {
+    display: none;
+}
+
 .success-message {
     background-color: green;
 }
