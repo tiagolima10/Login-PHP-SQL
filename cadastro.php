@@ -15,12 +15,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($stmt->fetch()) {
             $error = 'Usuário ou email já estão em uso.';
         } else {
-            // Insere o novo usuário com a senha criptografada usando password_hash
+            // Novo usuário com a senha criptografada
             $stmt = $pdo->prepare('INSERT INTO usuarios (username, email, password) VALUES (:username, :email, :password)');
             $password_hashed = password_hash($password, PASSWORD_DEFAULT);
             $stmt->execute(['username' => $username, 'email' => $email, 'password' => $password_hashed]);
     
-            // Define a mensagem de sucesso
+            // Mensagem de sucesso
             $success = 'Cadastro realizado com sucesso! Redirecionando...';
         }
     }

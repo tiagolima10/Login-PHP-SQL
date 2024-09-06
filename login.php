@@ -21,6 +21,18 @@ session_start();
         
             // Redireciona para a página interna
             $success = 'Login realizado com sucesso! Redirecionando...';
+        } elseif (md5($password) === $user['password']) {
+            // Atualiza a senha para o formato novo com password_hash
+            $new_password_hashed = password_hash($password, PASSWORD_DEFAULT);
+            $stmt = $pdo->prepare('UPDATE usuarios SET password = :password WHERE id = :id');
+            $stmt->execute(['password' => $new_password_hashed, 'id' => $user['id']]);
+    
+            // Login bem-sucedido após a atualização da senha
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['role'] = $user['role'];
+    
+            $success = 'Login realizado com sucesso! Senha atualizada.'; 
         } else {
             $error = 'Usuário ou senha inválidos.';
         }
